@@ -1,2 +1,2 @@
 # C - Stacks, Queues - LIFO, FIFO
-Group project
+Group project.
