@@ -17,11 +17,22 @@ int main(int argc, char **argv)
 
 	if (!fd)
 	{
-		dprintf(2, "Error: Can't open file\n", argv[1]);
+		dprintf(2, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
+	}
+	while (getline(&buffer, &size, fd) != -1)
+	{
+		line_number++;
+		input = substring(buffer, "\n\t\r ");
+		if (input)
+		{
+			opcodef(input[0], &stack, line_number);
+		}
+		free(input);
 	}
 
 	free(buffer);
+	freeStack(stack);
 	fclose(fd);
 	return(0);
 }
