@@ -1,4 +1,11 @@
 #include "monty.h"
+/**
+ * main - function
+ * @argc: holds the total number of arguments
+ * @argv: array of character pointers, each pointing to a string that
+ * represents one of the command-line arguments
+ * Return: 0
+ */
 
 int main(int argc, char **argv)
 {
@@ -34,5 +41,5 @@ int main(int argc, char **argv)
 	free(buffer);
 	freeStack(stack);
 	fclose(fd);
-	return(0);
+	return (0);
 }

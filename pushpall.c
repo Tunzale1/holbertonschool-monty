@@ -1,5 +1,10 @@
 #include "monty.h"
-
+/**
+ * pall - prints all the values on the stack, starting from
+ * the top of the stack
+ * @stack: Stack of nodes
+ * @line_number: Current line number
+ */
 void pall(stack_t **stack, unsigned int line_number)
 {
 	(void)(line_number);
@@ -11,9 +16,11 @@ void pall(stack_t **stack, unsigned int line_number)
 	}
 }
 
-
-
-
+/**
+ * push - pushes an element to the stack.
+ * @stack: Stack of nodes
+ * @line_number: Current line number
+ */
 
 void push(stack_t **stack, unsigned int line_number)
 {

@@ -1,4 +1,10 @@
 #include "monty.h"
+/**
+ * opcodef - Parses and executes instructions for a stack-based interpreter.
+ * @buffer: Line which has opcode and arguments
+ * @stack: Stack of nodes
+ * @line_number: Current line number
+ */
 
 void opcodef(char *buffer, stack_t **stack, unsigned int line_number)
 {
@@ -7,9 +13,9 @@ void opcodef(char *buffer, stack_t **stack, unsigned int line_number)
 		{"push", push},
 		{"pall", pall},
 		{"pint", pint},
-                {"pop", pop},
+		{"pop", pop},
 		{"swap", swap},
-                {"add", add},
+		{"add", add},
 		{"nop", nop},
 		{NULL, NULL}
 	};
@@ -25,12 +31,14 @@ void opcodef(char *buffer, stack_t **stack, unsigned int line_number)
 	exit(EXIT_FAILURE);
 }
 
-
-
-
-
-/*Splits a string into substrings based on a given separator
+/**
+ * substring - Splits a string into substrings based on a given separator
+ * and creates an array of those substrings
+ * @string: String that is going to be divided
+ * @separat: Separator that indicates the division point
+ * Return: Divided array
  */
+
 char **substring(char *string, char *separat)
 {
 	int i = 0, j = 0;
