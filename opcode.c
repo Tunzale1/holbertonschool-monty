@@ -6,6 +6,8 @@ void opcodef(char *buffer, stack_t **stack, unsigned int line_number)
 	instruction_t ops[] = {
 		{"push", push},
 		{"pall", pall},
+		{"pint", pint},
+                {"pop", pop},
 		{NULL, NULL}
 	};
 	for (i = 0; ops[i].opcode != NULL; i++)
