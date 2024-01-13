@@ -10,6 +10,7 @@ void opcodef(char *buffer, stack_t **stack, unsigned int line_number)
                 {"pop", pop},
 		{"swap", swap},
                 {"add", add},
+		{"nop", nop},
 		{NULL, NULL}
 	};
 	for (i = 0; ops[i].opcode != NULL; i++)
