@@ -9,11 +9,11 @@
 
 int main(int argc, char **argv)
 {
+	FILE *fd;
 	size_t size = 0;
 	stack_t *stack = NULL;
 	char *buffer;
 	unsigned int line_number = 0;
-	FILE *fd;
 
 	if (argc != 2)
 	{

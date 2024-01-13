@@ -5,12 +5,12 @@
  */
 void freeStack(stack_t *stack)
 {
-	stack_t *tempo;
+	stack_t *aux;
 
 	while (stack != NULL)
 	{
-		tempo = stack->next;
+		aux = stack->next;
 		free(stack);
-		stack = tempo;
+		stack = aux;
 	}
 }

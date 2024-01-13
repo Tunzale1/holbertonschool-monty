@@ -11,6 +11,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+char **input;
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -40,8 +42,6 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-
-char **input;
 
 void opcodef(char *buffer, stack_t **stack, unsigned int line_number);
 char **substring(char *string_pathcpy, char *separat);

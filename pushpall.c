@@ -7,14 +7,13 @@
  */
 void pall(stack_t **stack, unsigned int line_number)
 {
-	stack_t *node;
-	(void)line_number;
 
-	node = *stack;
-	while (node)
+	(void)(line_number);
+
+	while (*stack)
 	{
-		printf("%d\n", node->n);
-		node = node->next;
+		printf("%d\n", (*stack)->n);
+		stack = &(*stack)->next;
 	}
 }
 
@@ -26,20 +25,30 @@ void pall(stack_t **stack, unsigned int line_number)
 
 void push(stack_t **stack, unsigned int line_number)
 {
+	stack_t *aux = NULL;
+	int integer;
 
-	stack_t *node = malloc(sizeof(stack_t));
-
-	if (!node)
+	aux = malloc(sizeof(stack_t));
+	if (aux == NULL)
 	{
-		fprintf(stderr, "Error: malloc failed\n");
-		freeStack(*stack);
+		free(aux);
+		dprintf(2, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	node->n = line_number;
-	node->next = *stack;
-	node->prev = NULL;
 
-	if (*stack)
-		(*stack)->prev = node;
-	*stack = node;
+	integer = atoi(input[1]);
+	if (integer == 0)
+	{
+		dprintf(2, "L%i: usage: push integer\n", line_number);
+		free(aux);
+		exit(EXIT_FAILURE);
+	}
+
+	aux->n = integer;
+	aux->prev = NULL;
+	aux->next = *stack;
+
+	if (*stack != NULL)
+		(*stack)->prev = aux;
+	*stack = aux;
 }
