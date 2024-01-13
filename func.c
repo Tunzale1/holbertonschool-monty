@@ -73,3 +73,24 @@ void swap(stack_t **stack, unsigned int line_number)
 	*stack = head;
 }
 
+/**
+ * add - Adds the top two elements of the stack
+ * @stack: Stack of nodes
+ * @line_number: Line where the instruction is located
+ */
+
+void add(stack_t **stack, unsigned int line_number)
+{
+	stack_t *aux = *stack;
+
+	if (!*stack || !stack || !aux->next)
+	{
+		dprintf(2, "L%i: can't add, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	(aux->next)->n += aux->n;
+	pop(&aux, line_number);
+
+	*stack = aux;
+}
