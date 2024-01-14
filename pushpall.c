@@ -1,54 +1,58 @@
 #include "monty.h"
-
 /**
- * pall - prints all the values on the stack, starting from
- * the top of the stack
- * @stack: Stack of nodes
- * @line_number: Current line number
- */
-void pall(stack_t **stack, unsigned int line_number)
+ * f_pall - prints the stack
+ * @head: stack head
+ * @counter: no used
+ * Return: no return
+*/
+void f_pall(stack_t **head, unsigned int counter)
 {
+	stack_t *h;
+	(void)counter;
 
-	(void)(line_number);
-
-	while (current)
+	h = *head;
+	if (h == NULL)
+		return;
+	while (h)
 	{
-		printf("%d\n", current->n);
-		current = current->next;
+		printf("%d\n", h->n);
+		h = h->next;
 	}
 }
 
 /**
- * push - pushes an element to the stack.
- * @stack: Stack of nodes
- * @line_number: Current line number
- */
-void push(stack_t **stack, unsigned int line_number)
+ * f_push - add node to the stack
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_push(stack_t **head, unsigned int counter)
 {
-	stack_t *aux = NULL;
-	int integer;
+	int n, j = 0, flag = 0;
 
-	aux = malloc(sizeof(stack_t));
-	if (aux == NULL)
+	if (bus.arg)
 	{
-		free(aux);
-		dprintf(2, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-
-	integer = atoi(input[1]);
-	if (integer == 0)
-	{
-		dprintf(2, "L%i: usage: push integer\n", line_number);
-		free(aux);
-		exit(EXIT_FAILURE);
-	}
-
-	aux->n = integer;
-	aux->prev = NULL;
-	aux->next = *stack;
-
-	if (*stack != NULL)
-	(*stack)->prev = aux;
-	*stack = aux;
+		if (bus.arg[0] == '-')
+			j++;
+		for (; bus.arg[j] != '\0'; j++)
+		{
+			if (bus.arg[j] > 57 || bus.arg[j] < 48)
+				flag = 1; }
+		if (flag == 1)
+		{ fprintf(stderr, "L%d: usage: push integer\n", counter);
+			fclose(bus.file);
+			free(bus.content);
+			free_stack(*head);
+			exit(EXIT_FAILURE); }}
+	else
+	{ fprintf(stderr, "L%d: usage: push integer\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
+		exit(EXIT_FAILURE); }
+	n = atoi(bus.arg);
+	if (bus.lifi == 0)
+		addnode(head, n);
+	else
+		addqueue(head, n);
 }

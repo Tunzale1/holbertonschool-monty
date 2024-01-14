@@ -1,65 +1,44 @@
 #include "monty.h"
-/**
- * opcodef - Parses and executes instructions for a stack-based interpreter.
- * @buffer: Line which has opcode and arguments
- * @stack: Stack of nodes
- * @line_number: Current line number
- */
 
-void opcodef(char *buffer, stack_t **stack, unsigned int line_number)
+/**
+* execute - executes the opcode
+* @stack: head linked list - stack
+* @counter: line_counter
+* @file: poiner to monty file
+* @content: line content
+* Return: no return
+*/
+
+int execute(char *content, stack_t **stack, unsigned int counter, FILE *file)
 {
-	size_t i;
-	instruction_t ops[] = {
-		{"push", push},
-		{"pall", pall},
-		{"pint", pint},
-		{"pop", pop},
-		{"swap", swap},
-		{"add", add},
-		{"nop", nop},
-		{NULL, NULL}
-	};
-	for (i = 0; ops[i].opcode != NULL; i++)
+	instruction_t opst[] = {
+				{"push", f_push}, {"pall", f_pall}, {"pint", f_pint},
+				{"pop", f_pop},
+				{"swap", f_swap},
+				{"add", f_add},
+				{"nop", f_nop},
+				{NULL, NULL}
+				};
+	unsigned int i = 0;
+	char *op;
+
+	op = strtok(content, " \n\t");
+	if (op && op[0] == '#')
+		return (0);
+	bus.arg = strtok(NULL, " \n\t");
+	while (opst[i].opcode && op)
 	{
-		if (strcmp(ops[i].opcode, buffer) == 0)
-		{
-			ops[i].f(stack, line_number);
-			return;
+		if (strcmp(op, opst[i].opcode) == 0)
+		{	opst[i].f(stack, counter);
+			return (0);
 		}
-	}
-	dprintf(2, "L%i: unknown instruction %s\n", line_number, buffer);
-	exit(EXIT_FAILURE);
-}
-
-/**
- * substring - Splits a string into substrings based on a given separator
- * and creates an array of those substrings
- * @string: String that is going to be divided
- * @separat: Separator that indicates the division point
- * Return: Divided array
- */
-
-char **substring(char *string, char *separat)
-{
-	int i = 0, j = 0;
-	char *temp, **array;
-
-	array = (char **)calloc(100, sizeof(char *));
-
-	if (!array)
-	{
-		free(array);
-		dprintf(2, "Error: calloc failed\n");
-		exit(EXIT_FAILURE);
-	}
-
-	while (string[i])
 		i++;
-	while ((temp = strtok(string, separat)) != NULL)
-	{
-		array[j] = temp;
-		string = NULL;
-		j++;
 	}
-	return (array);
+	if (op && opst[i].opcode == NULL)
+	{ fprintf(stderr, "L%d: unknown instruction %s\n", counter, op);
+		fclose(file);
+		free(content);
+		free_stack(*stack);
+		exit(EXIT_FAILURE); }
+	return (1);
 }

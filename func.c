@@ -1,108 +1,118 @@
 #include "monty.h"
 
 /**
- * pint - Prints the first node of the stack
- * @stack: Stack of nodes
- * @line_number: Line where the instruction is located
- */
-
-void pint(stack_t **stack, unsigned int line_number)
+ * f_pint - prints the top
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_pint(stack_t **head, unsigned int counter)
 {
-	if (!stack || !*stack)
+	if (*head == NULL)
 	{
-		dprintf(2, "L%i: can't pint, stack empty\n", line_number);
+		fprintf(stderr, "L%u: can't pint, stack empty\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-
-	printf("%d\n", (*stack)->n);
+	printf("%d\n", (*head)->n);
 }
 
 /**
- * pop- Removes the top element of the stack
- * @stack: Stack of nodes
- * @line_number: Line where the instruction is located
- */
-
-void pop(stack_t **stack, unsigned int line_number)
+ * f_pop - prints the top
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_pop(stack_t **head, unsigned int counter)
 {
-	stack_t *aux = *stack;
+	stack_t *h;
 
-	if (!*stack || !stack)
+	if (*head == NULL)
 	{
-		dprintf(2, "L%i: can't pop an empty stack\n", line_number);
+		fprintf(stderr, "L%d: can't pop an empty stack\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-
-	if ((*stack)->next != NULL)
-	{
-		*stack = aux->next;
-		(*stack)->prev = NULL;
-		free(aux);
-	}
-	else
-	{
-		free(*stack);
-		*stack = NULL;
-	}
+	h = *head;
+	*head = h->next;
+	free(h);
 }
 
 /**
- * swap - Swaps the top two elements of the stack
- * @stack: Stack of nodes
- * @line_number: Line where the instruction is located
- */
-
-void swap(stack_t **stack, unsigned int line_number)
+ * f_swap - adds the top two elements of the stack.
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_swap(stack_t **head, unsigned int counter)
 {
-	stack_t *head = *stack;
-	stack_t *aux = *stack;
+	stack_t *h;
+	int len = 0, aux;
 
-	if (!*stack || !stack || !head->next)
+	h = *head;
+	while (h)
 	{
-		dprintf(2, "L%i: can't swap, stack too short\n", line_number);
+		h = h->next;
+		len++;
+	}
+	if (len < 2)
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-
-	head = head->next;
-	head->prev = NULL;
-
-	aux->next = head->next;
-	head->next = aux;
-	(head->next)->prev = head;
-
-	*stack = head;
+	h = *head;
+	aux = h->n;
+	h->n = h->next->n;
+	h->next->n = aux;
 }
 
 /**
- * add - Adds the top two elements of the stack
- * @stack: Stack of nodes
- * @line_number: Line where the instruction is located
- */
-
-void add(stack_t **stack, unsigned int line_number)
+ * f_add - adds the top two elements of the stack.
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+*/
+void f_add(stack_t **head, unsigned int counter)
 {
-	stack_t *aux = *stack;
+	stack_t *h;
+	int len = 0, aux;
 
-	if (!*stack || !stack || !aux->next)
+	h = *head;
+	while (h)
 	{
-		dprintf(2, "L%i: can't add, stack too short\n", line_number);
+		h = h->next;
+		len++;
+	}
+	if (len < 2)
+	{
+		fprintf(stderr, "L%d: can't add, stack too short\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
 		exit(EXIT_FAILURE);
 	}
-
-	(aux->next)->n += aux->n;
-	pop(&aux, line_number);
-
-	*stack = aux;
+	h = *head;
+	aux = h->n + h->next->n;
+	h->next->n = aux;
+	*head = h->next;
+	free(h);
 }
 
 /**
- * nop - Doesn't do anything
- * @stack: Stack of nodes
- * @line_number: Line where the instruction is located
+  *f_nop- nothing
+  *@head: stack head
+  *@counter: line_number
+  *Return: no return
  */
-
-void nop(stack_t **stack, unsigned int line_number)
+void f_nop(stack_t **head, unsigned int counter)
 {
-	(void)(*stack);
-	(void)(line_number);
+	(void) counter;
+	(void) head;
 }

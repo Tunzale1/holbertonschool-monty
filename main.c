@@ -1,45 +1,48 @@
 #include "monty.h"
-/**
- * main - function
- * @argc: holds the total number of arguments
- * @argv: array of character pointers, each pointing to a string that
- * represents one of the command-line arguments
- * Return: 0
- */
 
-int main(int argc, char **argv)
+bus_t bus = {NULL, NULL, NULL, 0};
+
+/**
+* main - monty code interpreter
+* @argc: number of arguments
+* @argv: monty file location
+* Return: 0 on success
+*/
+
+int main(int argc, char *argv[])
 {
-	FILE *fd;
-	unsigned int line_number = 0;
-	char *buffer;
+	char *content;
+	FILE *file;
 	size_t size = 0;
+	ssize_t read_line = 1;
 	stack_t *stack = NULL;
+	unsigned int counter = 0;
 
 	if (argc != 2)
 	{
-		dprintf(2, "USAGE: monty file\n");
+		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	fd = fopen(argv[1], "r+");
-
-	if (!fd)
+	file = fopen(argv[1], "r");
+	bus.file = file;
+	if (!file)
 	{
-		dprintf(2, "Error: Can't open file %s\n", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while (getline(&buffer, &size, fd) != -1)
+	while (read_line > 0)
 	{
-		line_number++;
-		input = substring(buffer, "\n\t\r ");
-		if (input)
+		content = NULL;
+		read_line = getline(&content, &size, file);
+		bus.content = content;
+		counter++;
+		if (read_line > 0)
 		{
-			opcodef(input[0], &stack, line_number);
+			execute(content, &stack, counter, file);
 		}
-		free(input);
+		free(content);
 	}
-
-	free(buffer);
-	freeStack(stack);
-	fclose(fd);
+	free_stack(stack);
+	fclose(file);
 	return (0);
 }
