@@ -10,10 +10,10 @@
 int main(int argc, char **argv)
 {
 	FILE *fd;
+	unsigned int line_number = 0;
+	char *buffer;
 	size_t size = 0;
 	stack_t *stack = NULL;
-	char *buffer;
-	unsigned int line_number = 0;
 
 	if (argc != 2)
 	{
